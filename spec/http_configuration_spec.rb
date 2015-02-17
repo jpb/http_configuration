@@ -16,7 +16,7 @@ describe Net::HTTP::Configuration do
     config[:proxy_host].should == 'localhost'
     config[:proxy_port].should == 80
     config[:proxy_user].should == nil
-    config[:proxy_password].should == nil
+    config[:proxy_pass].should == nil
     config[:no_proxy].should == ['.local1', '.local2']
   end
   
@@ -31,7 +31,7 @@ describe Net::HTTP::Configuration do
     config[:proxy_host].should == 'proxy.local'
     config[:proxy_port].should == 9000
     config[:proxy_user].should == 'user'
-    config[:proxy_password].should == 'password'
+    config[:proxy_pass].should == 'password'
     config[:no_proxy].should == ['.local1', '.local2']
     config[:proxy].should == nil
   end
@@ -41,7 +41,7 @@ describe Net::HTTP::Configuration do
     config[:proxy_host].should == nil
     config[:proxy_port].should == nil
     config[:proxy_user].should == nil
-    config[:proxy_password].should == nil
+    config[:proxy_pass].should == nil
   end
   
   it "should be able to set a global configuration" do
@@ -103,7 +103,7 @@ describe Net::HTTP do
   end
   
   it "should use proxy settings if they have been set" do
-    config = Net::HTTP::Configuration.new(:proxy_host => 'proxy', :proxy_port => 8080, :proxy_user => 'user', :proxy_password => 'password')
+    config = Net::HTTP::Configuration.new(:proxy_host => 'proxy', :proxy_port => 8080, :proxy_user => 'user', :proxy_pass => 'password')
     Net::HTTP.should_receive(:new_without_configuration).with('localhost', 80, 'proxy', 8080, 'user', 'password')
     config.apply do
       Net::HTTP.new('localhost', 80)
@@ -119,7 +119,7 @@ describe Net::HTTP do
   end
   
   it "should honor proxies explicitly passed" do
-    config = Net::HTTP::Configuration.new(:proxy_host => 'proxy', :proxy_port => 8080, :proxy_user => 'user', :proxy_password => 'password')
+    config = Net::HTTP::Configuration.new(:proxy_host => 'proxy', :proxy_port => 8080, :proxy_user => 'user', :proxy_pass => 'password')
     Net::HTTP.should_receive(:new_without_configuration).with('localhost', 80, 'other_proxy', 9000, nil, nil)
     config.apply do
       Net::HTTP.new('localhost', 80, 'other_proxy', 9000)

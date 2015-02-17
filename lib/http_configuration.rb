@@ -18,7 +18,7 @@ module Net
             p_addr = config_options[:proxy_host]
             p_port = config_options[:proxy_port].to_i
             p_user = config_options[:proxy_user]
-            p_pass = config_options[:proxy_password]
+            p_pass = config_options[:proxy_pass]
           end
         end
         
@@ -42,7 +42,7 @@ module Net
     # Configuration blocks can also set an additional set of options which take precedence
     # over the initialization options.
     #
-    # Available options are :proxy_host, :proxy_port, :proxy_user, :proxy_password, :no_proxy,
+    # Available options are :proxy_host, :proxy_port, :proxy_user, :proxy_pass, :no_proxy,
     # :read_timeout, :open_timeout, and :proxy. This last value can either contain a proxy string
     # or the symbol :none for no proxy or :environment to use the values in the HTTP_PROXY/http_proxy
     # and NO_PROXY/no_proxy environment variables.
@@ -126,7 +126,7 @@ module Net
             options[:no_proxy] = ENV['NO_PROXY'] || ENV['no_proxy']
           elsif proxy_config == :none
             options[:proxy_user] = nil
-            options[:proxy_password] = nil
+            options[:proxy_pass] = nil
             options[:proxy_host] = nil
             options[:proxy_port] = nil
             options[:no_proxy] = nil
@@ -142,7 +142,7 @@ module Net
         proxy_info = /(http:\/\/)?(([^:]+):([^@]+)@)?([^:]+)(:(\d+))?/i.match(proxy)
         if proxy_info
           options[:proxy_user] = proxy_info[3]
-          options[:proxy_password] = proxy_info[4]
+          options[:proxy_pass] = proxy_info[4]
           options[:proxy_host] = proxy_info[5]
           options[:proxy_port] = proxy_info[7].to_i if proxy_info[7]
         end
